@@ -4492,33 +4492,71 @@
     }
 
     .action-popup-button {
-      min-height: 42px;
+      min-height: 63px;
       width: 100%;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
       text-align: center;
       white-space: normal;
-      line-height: 1.12;
-      border-radius: 14px;
-      padding: 8px 10px;
-      color: #5c438f;
+      line-height: 1.15;
+      letter-spacing: 0.018em;
+      border-radius: 18px;
+      padding: 12px 16px;
+      color: #4f367d;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.9);
       background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.98), rgba(250,244,255,0.92) 58%, rgba(242,250,248,0.90)),
-        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,240,255,0.90));
-      border: 1px solid rgba(171,112,255,0.24);
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,0.98), rgba(255,255,255,0.42) 22%, transparent 42%),
+        radial-gradient(circle at 82% 78%, rgba(123,224,214,0.30), transparent 44%),
+        linear-gradient(135deg, rgba(255,248,253,0.98), rgba(241,232,255,0.94) 52%, rgba(232,255,252,0.90));
+      border: 1px solid rgba(171,112,255,0.34);
       box-shadow:
-        0 8px 18px rgba(155,113,201,0.10),
-        inset 0 1px 0 rgba(255,255,255,0.86),
-        inset 0 0 0 1px rgba(123,224,214,0.10);
+        0 13px 26px rgba(132,93,173,0.16),
+        inset 0 1px 0 rgba(255,255,255,0.92),
+        inset 0 0 0 1px rgba(123,224,214,0.14);
+      transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, color 0.16s ease;
+    }
+
+    .action-popup-button::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border-radius: 14px;
+      border: 1px solid rgba(123,224,214,0.20);
+      box-shadow: inset 0 0 18px rgba(183,132,255,0.08);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .action-popup-button::after {
+      content: "✦";
+      position: absolute;
+      right: 12px;
+      bottom: 7px;
+      color: rgba(108,85,168,0.20);
+      font-size: 1.28rem;
+      line-height: 1;
+      pointer-events: none;
     }
 
     .action-popup-button:hover,
     .action-popup-button:focus-visible {
-      border-color: rgba(123,224,214,0.46);
+      color: #442a72;
+      border-color: rgba(123,224,214,0.58);
+      transform: translateY(-2px);
       box-shadow:
-        0 0 0 3px rgba(123,224,214,0.14),
-        0 10px 20px rgba(155,113,201,0.12),
-        inset 0 1px 0 rgba(255,255,255,0.9);
+        0 0 0 4px rgba(123,224,214,0.16),
+        0 16px 30px rgba(132,93,173,0.20),
+        inset 0 1px 0 rgba(255,255,255,0.94),
+        inset 0 0 0 1px rgba(123,224,214,0.18);
       outline: none;
+    }
+
+    .action-popup-button:active {
+      transform: translateY(0);
     }
 
     #action-info-modal[hidden] { display: none !important; }
@@ -4765,24 +4803,24 @@
 <h3>Rogue Class Features</h3>
 <span>Levels 1-7</span>
 </div>
-<div class="feature-level-grid feature-flip-grid action-popup-grid">
-<button aria-haspopup="dialog" class="mini-btn action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-1" type="button">Level 1 - Sneak Attack</button><button aria-haspopup="dialog" class="mini-btn action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-2" type="button">Level 1 - Thieves' Cant</button><button aria-haspopup="dialog" class="mini-btn action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-3" type="button">Level 2 - Cunning Action</button><button aria-haspopup="dialog" class="mini-btn action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-4" type="button">Level 5 - Uncanny Dodge</button><button aria-haspopup="dialog" class="mini-btn action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-5" type="button">Level 7 - Evasion</button></div>
+<div class="actions-combat-grid feature-actions-grid">
+<button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-1" type="button">Level 1 - Sneak Attack</button><button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-2" type="button">Level 1 - Thieves' Cant</button><button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-3" type="button">Level 2 - Cunning Action</button><button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-4" type="button">Level 5 - Uncanny Dodge</button><button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-5" type="button">Level 7 - Evasion</button></div>
 </div>
 <div class="feature-source-group">
 <div class="feature-source-title">
 <h3>Arcane Trickster Features</h3>
 <span>Roguish Archetype</span>
 </div>
-<div class="feature-level-grid feature-flip-grid action-popup-grid">
-<button aria-haspopup="dialog" class="mini-btn action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-6" type="button">Level 3 - Spellcasting</button><button aria-haspopup="dialog" class="mini-btn action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-7" type="button">Level 3 - Mage Hand Legerdemain</button></div>
+<div class="actions-combat-grid feature-actions-grid">
+<button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-6" type="button">Level 3 - Spellcasting</button><button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-7" type="button">Level 3 - Mage Hand Legerdemain</button></div>
 </div>
 <div class="feature-source-group">
 <div class="feature-source-title">
 <h3>Racial/Background Features</h3>
 <span>Fairy / Planar Traveler</span>
 </div>
-<div class="feature-level-grid feature-flip-grid action-popup-grid">
-<button aria-haspopup="dialog" class="mini-btn action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-8" type="button">Fairy Magic</button><button aria-haspopup="dialog" class="mini-btn action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-9" type="button">Flight</button><button aria-haspopup="dialog" class="mini-btn action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-10" type="button">Plane Marked</button></div>
+<div class="actions-combat-grid feature-actions-grid">
+<button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-8" type="button">Fairy Magic</button><button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-9" type="button">Flight</button><button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-template="action-popup-template-10" type="button">Plane Marked</button></div>
 </div></div>
 </section>
 <section class="panel" data-panel="attacks">
@@ -10474,8 +10512,16 @@
 </style>
 <script>
 (function(){
+  function escapeAttribute(value){
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
   function featureCard(title, body){
-    return '<div class="action-flip-card feature-flip-card" tabindex="0" role="button" aria-pressed="false"><div class="action-flip-inner"><div class="action-flip-face action-flip-front"><div class="action-flip-title">'+title+'</div></div><div class="action-flip-face action-flip-back"><h4>'+title+'</h4>'+body+'</div></div></div>';
+    return '<button aria-haspopup="dialog" class="mini-btn action-popup-button attack-action-popup-button feature-action-popup-button" data-action-popup-title="'+escapeAttribute(title)+'" data-action-popup-body="'+escapeAttribute('<h4>'+title+'</h4>'+body)+'" type="button">'+title+'</button>';
   }
   function list(items){ return '<ul class="feature-tip-list">'+items.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>'; }
   function block(label, text){ return '<div class="feature-example-block"><strong>'+label+':</strong><br>'+text+'</div>'; }
@@ -10520,10 +10566,9 @@
   function updateFeatures(){
     document.querySelectorAll('.feature-source-group').forEach(function(group){
       var title = group.querySelector('.feature-source-title h3');
-      var grid = group.querySelector('.feature-level-grid');
+      var grid = group.querySelector('.feature-actions-grid, .feature-level-grid');
       if(title && grid && featureGroups[title.textContent.trim()]) grid.innerHTML = featureGroups[title.textContent.trim()].join('');
     });
-    equalizeFeatureCardsV123();
   }
   function equalizeFeatureCardsV123(){
     document.querySelectorAll('.feature-flip-grid').forEach(function(grid){
@@ -10998,9 +11043,10 @@
     function openPopup(button){
       const templateId = button.getAttribute('data-action-popup-template');
       const template = templateId ? document.getElementById(templateId) : null;
-      body.innerHTML = template ? template.innerHTML : button.textContent;
+      const inlineBody = button.getAttribute('data-action-popup-body');
+      body.innerHTML = template ? template.innerHTML : (inlineBody || button.textContent);
       const heading = body.querySelector('h4');
-      title.textContent = heading ? heading.textContent : button.textContent.trim();
+      title.textContent = button.getAttribute('data-action-popup-title') || (heading ? heading.textContent : button.textContent.trim());
       lastFocus = button;
       modal.hidden = false;
       closeBtn.focus();
@@ -11012,7 +11058,7 @@
       if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
     }
 
-    document.querySelectorAll('.action-popup-button[data-action-popup-template]').forEach(function(button){
+    document.querySelectorAll('.action-popup-button[data-action-popup-template], .action-popup-button[data-action-popup-body]').forEach(function(button){
       button.addEventListener('click', function(){ openPopup(button); });
     });
 
