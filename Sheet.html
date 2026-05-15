@@ -3539,20 +3539,44 @@
 
 
     /* v85: compact item add buttons in a single row for desktop/tablet */
+    .item-add-toolbar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(140px, 1fr));
+      gap: 8px;
+      align-items: stretch;
+      margin-bottom: 8px;
+    }
+
     .item-add-grid {
       display: grid;
-      grid-template-columns: repeat(8, minmax(0, 1fr));
-      gap: 6px;
+      grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+      gap: 8px;
       align-items: stretch;
     }
 
-    .item-add-grid .mini-btn {
-      min-height: 36px;
+    .item-add-grid .mini-btn,
+    .item-add-toolbar .mini-btn {
+      min-height: 40px;
       border-radius: 12px;
       white-space: normal;
-      padding: 5px 6px;
+      padding: 6px 8px;
       font-size: 0.78rem;
-      line-height: 1.05;
+      line-height: 1.08;
+    }
+
+    .item-add-primary-action {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      border-color: rgba(123,224,214,0.44) !important;
+      min-height: 44px;
+      color: #4f367d;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.98), rgba(246,255,252,0.90) 54%, rgba(240,232,255,0.90)),
+        linear-gradient(135deg, rgba(255,248,253,0.98), rgba(232,255,252,0.90));
+      box-shadow:
+        0 8px 18px rgba(123,224,214,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.88);
     }
 
     .item-add-modal-card {
@@ -3581,6 +3605,36 @@
     }
 
     .item-add-modal-card { position: relative; }
+
+    .bazaar-import-modal-card, .existing-items-modal-card {
+      width: min(820px, calc(100vw - 32px));
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      padding: 18px;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.99), rgba(250,244,255,0.96) 55%, rgba(242,250,248,0.94));
+      border: 1px solid rgba(171,112,255,0.30);
+      border-radius: 24px;
+      box-shadow: 0 18px 46px rgba(132,93,173,0.22), inset 0 1px 0 rgba(255,255,255,0.92);
+    }
+    .bazaar-import-actions { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0; }
+    .bazaar-import-preview { display:grid; gap:10px; margin-top:12px; }
+    .bazaar-import-preview[hidden] { display:none !important; }
+    .bazaar-import-field { display:grid; gap:5px; }
+    .bazaar-import-field label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.09em; color:#7a5ea7; font-weight:900; }
+    .bazaar-import-field input, .bazaar-import-field select, .bazaar-import-field textarea {
+      width:100%; min-height:42px; border:1px solid rgba(171,112,255,0.24); border-radius:14px; padding:8px 10px;
+      background:rgba(255,255,255,0.82); color:#2f2342; font:inherit; font-weight:750;
+    }
+    .bazaar-import-field textarea { min-height:110px; resize:vertical; line-height:1.35; }
+    .bazaar-import-summary, .existing-items-list {
+      border-radius:18px; border:1px solid rgba(171,112,255,0.16); background:rgba(255,255,255,0.62); padding:12px; display:grid; gap:8px;
+    }
+    .existing-item-row { display:grid; grid-template-columns:1fr auto auto; gap:8px; align-items:center; border-bottom:1px solid rgba(171,112,255,0.12); padding-bottom:8px; }
+    .existing-item-row:last-child { border-bottom:0; padding-bottom:0; }
+    .bazaar-import-detail-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .bazaar-import-detail { border-radius:12px; border:1px solid rgba(171,112,255,0.14); background:rgba(255,255,255,0.60); padding:8px 10px; }
+    .bazaar-import-detail strong { display:block; color:#5c438f; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; }
+    @media (max-width: 680px) { .bazaar-import-detail-grid { grid-template-columns:1fr; } .existing-item-row { grid-template-columns:1fr; } }
 
 
     /* v86: item section display areas and weapon importer form */
@@ -3860,10 +3914,12 @@
     @media (max-width: 720px) { .weapon-importer-grid, .weapon-dice-row { grid-template-columns: 1fr; } }
 
     @media (max-width: 860px) {
-      .item-add-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .item-add-toolbar,
+      .item-add-grid { grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); }
     }
 
     @media (max-width: 560px) {
+      .item-add-toolbar,
       .item-add-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
@@ -4123,6 +4179,42 @@
       color: #3b2e4c;
       font-weight: 800;
       line-height: 1.25;
+    }
+
+    .spell-level-card.spell-slots-empty,
+    .spell-row.spell-used-up {
+      filter: grayscale(0.95);
+      opacity: 0.48;
+      background: linear-gradient(135deg, rgba(226,224,232,0.92), rgba(211,216,220,0.86)) !important;
+      border-color: rgba(117,112,128,0.24) !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.54) !important;
+    }
+
+    .spell-level-card.spell-slots-empty::before,
+    .spell-row.spell-used-up::before {
+      content: "Unavailable";
+      position: absolute;
+      top: 12px;
+      right: 44px;
+      z-index: 2;
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: rgba(88,82,96,0.14);
+      color: rgba(61,55,70,0.76);
+      font-size: 0.68rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    .spell-level-card.spell-slots-empty .spell-table-wrap,
+    .spell-row.spell-used-up > :not(button) {
+      opacity: 0.68;
+    }
+
+    .spell-row.spell-used-up {
+      position: relative;
     }
 
     .spell-cast-btn {
@@ -5055,8 +5147,12 @@
 <section class="panel" data-panel="items">
 <div class="card">
 <div class="label" style="margin-bottom:12px;">Add Item</div>
-<div aria-label="Add item options" class="item-add-grid">
+<div aria-label="Primary add item options" class="item-add-toolbar">
+<button class="mini-btn item-add-primary-action" id="open-existing-items-button" type="button">Add Existing Item</button>
+<button class="mini-btn item-add-primary-action" id="open-bazaar-import-button" type="button">Import Bazaar Item</button>
 <button class="mini-btn" data-add-item="weapon" type="button">Add Weapon</button>
+</div>
+<div aria-label="Add item options" class="item-add-grid">
 <button class="mini-btn" data-add-item="armor" type="button">Add Armor</button>
 <button class="mini-btn" data-add-item="tool" type="button">Add Tool</button>
 <button class="mini-btn" data-add-item="scroll" type="button">Add Scroll</button>
@@ -5400,6 +5496,8 @@
       noteBlocks: [],
       itemsNotes: '',
       weaponsInventory: [],
+      existingBazaarItems: [],
+      onceSpells: {},
       greenFlameBladeActive: false,
       sneakAttackActive: false,
       hitDiceUsed: [false, false, false, false, false, false, false],
@@ -5995,6 +6093,22 @@
       renderGold();
     }
 
+    function updateSpellAvailabilityDisplay() {
+      document.querySelectorAll('[data-slot-group]').forEach(group => {
+        const key = group.dataset.slotGroup;
+        const card = group.closest('.spell-level-card');
+        const slots = state.slots && state.slots[key] ? state.slots[key] : [];
+        const empty = slots.length > 0 && slots.every(value => !value);
+        if (card) card.classList.toggle('spell-slots-empty', empty);
+      });
+
+      document.querySelectorAll('.spell-once-toggle').forEach(btn => {
+        const row = btn.closest('.spell-row');
+        const used = btn.classList.contains('used') || btn.getAttribute('aria-pressed') === 'true';
+        if (row) row.classList.toggle('spell-used-up', used);
+      });
+    }
+
     function setupSlots() {
       document.querySelectorAll('[data-slot-group]').forEach(group => {
         const key = group.dataset.slotGroup;
@@ -6003,6 +6117,7 @@
           btn.addEventListener('click', () => {
             state.slots[key][idx] = !state.slots[key][idx];
             btn.classList.toggle('active', !!state.slots[key][idx]);
+            updateSpellAvailabilityDisplay();
             saveState('Spell slots updated');
           });
         });
@@ -6015,9 +6130,11 @@
           state.slots.lvl2 = [true, true];
           document.querySelectorAll('[data-slot-group="lvl1"] .slot').forEach(btn => btn.classList.add('active'));
           document.querySelectorAll('[data-slot-group="lvl2"] .slot').forEach(btn => btn.classList.add('active'));
+          updateSpellAvailabilityDisplay();
           saveState('Spell slots restored');
         });
       }
+      updateSpellAvailabilityDisplay();
     }
 
     function setupNotes() {
@@ -8076,6 +8193,35 @@
 </div>
 </div>
 </div>
+<div class="modal-backdrop" hidden="" id="bazaar-import-modal" style="display:none;">
+<div aria-labelledby="bazaar-import-title" aria-modal="true" class="modal-card bazaar-import-modal-card" role="dialog">
+<h2 class="hp-editor-title" id="bazaar-import-title">Import Bazaar item</h2>
+<div class="tiny">Copy a standard D&amp;D 5e item JSON object, then click Import. You can edit the parsed item before adding it.</div>
+<div class="bazaar-import-actions">
+<button class="mini-btn" id="bazaar-import-read-button" type="button">Import</button>
+<button class="mini-btn" id="bazaar-add-existing-button" type="button">Add to: Existing Items</button>
+<button class="mini-btn" id="bazaar-add-inventory-button" type="button">Add to: Inventory</button>
+<button class="mini-btn" id="bazaar-clear-button" type="button">Clear</button>
+<button class="mini-btn" id="bazaar-close-button" type="button">Close</button>
+</div>
+<div class="bazaar-import-field"><label for="bazaar-raw-json">Clipboard JSON / manual paste</label><textarea id="bazaar-raw-json" placeholder="Paste item JSON here if clipboard access is blocked"></textarea></div>
+<div class="bazaar-import-preview" hidden="" id="bazaar-import-preview">
+<div class="bazaar-import-summary" id="bazaar-import-summary"></div>
+<div class="bazaar-import-field"><label for="bazaar-item-name">Name</label><input id="bazaar-item-name" type="text"/></div>
+<div class="bazaar-import-field"><label for="bazaar-item-type">Type</label><select id="bazaar-item-type"><option value="weapon">Weapon</option><option value="armor">Armor</option><option value="tool">Tool</option><option value="scroll">Scroll</option><option value="potion">Potion</option><option value="magic-item">Magic Item</option><option value="other-item">Other</option></select></div>
+<div class="bazaar-import-field"><label for="bazaar-item-rarity">Rarity</label><input id="bazaar-item-rarity" type="text"/></div>
+<div class="bazaar-import-field"><label for="bazaar-item-description">Description</label><textarea id="bazaar-item-description"></textarea></div>
+</div>
+</div>
+</div>
+<div class="modal-backdrop" hidden="" id="existing-items-modal" style="display:none;">
+<div aria-labelledby="existing-items-title" aria-modal="true" class="modal-card existing-items-modal-card" role="dialog">
+<h2 class="hp-editor-title" id="existing-items-title">Existing Items</h2>
+<div class="tiny">Stored imported Bazaar items can be edited or added directly to inventory.</div>
+<div class="existing-items-list" id="existing-items-list"></div>
+<div class="toolbar" style="justify-content:flex-end; margin-top:12px;"><button class="mini-btn" id="close-existing-items-button" type="button">Close</button></div>
+</div>
+</div>
 <div class="modal-backdrop" hidden="" id="item-add-modal" style="display:none;">
 <div aria-labelledby="item-add-modal-title" aria-modal="true" class="modal-card item-add-modal-card" role="dialog">
 <h2 class="hp-editor-title" id="item-add-modal-title">Add Item</h2>
@@ -9582,6 +9728,104 @@
         function populateOtherItemImporter(item){ clearOtherItemImporter(); setNullableField('other-item-name', item.name); setItemFieldValue('other-item-category', item.category || 'Adventuring Gear'); setItemFieldValue('other-item-quantity', item.quantity || '1'); setItemFieldValue('other-item-rarity', item.rarity || 'None'); setNullableField('other-item-location', item.location); setNullableField('other-item-description', item.description); }
         function openInventoryEditor(type, id){ var found=findInventoryItem(type,id); if(!found) return; currentItemEdit={type:type,id:id}; closeItemDetailModal(); openItemModal('Edit ' + found.label, type); if(type==='weapon') populateWeaponImporter(found.item); else if(type==='armor') populateArmorImporter(found.item); else if(type==='tool') populateToolImporter(found.item); else if(type==='scroll') populateScrollImporter(found.item); else if(type==='potion') populatePotionImporter(found.item); else if(type==='magic-item') populateMagicItemImporter(found.item); else if(type==='quest-item') populateQuestItemImporter(found.item); else if(type==='other-item' || type==='other') populateOtherItemImporter(found.item); }
 
+        var bazaarCurrentItem = null;
+        function ensureBazaarState(){ if(typeof state !== 'undefined' && !Array.isArray(state.existingBazaarItems)) state.existingBazaarItems = []; }
+        function bazaarModal(open){ var m=document.getElementById('bazaar-import-modal'); if(!m) return; m.hidden=!open; m.style.display=open?'grid':'none'; }
+        function existingModal(open){ var m=document.getElementById('existing-items-modal'); if(!m) return; m.hidden=!open; m.style.display=open?'grid':'none'; if(open) renderExistingBazaarItems(); }
+        function bazaarField(id){ return document.getElementById(id); }
+        function cleanBazaarText(value){ return String(value == null ? '' : value).replace(/\{@(spell|skill|condition|damage|dice) ([^}|]+)(?:\|[^}]*)?\}/g, '$2').replace(/\{@dc ([^}]+)\}/g, 'DC $1').replace(/\{@hit ([^}]+)\}/g, '+$1 to hit').replace(/\{@h\}/g, 'Hit:').replace(/\{@quickref ([^}|]+)(?:\|[^}]*)?\}/g, '$1'); }
+        function flattenBazaarEntries(entries){
+          if(!Array.isArray(entries)) entries = entries ? [entries] : [];
+          return entries.map(function(entry){
+            if(typeof entry === 'string') return cleanBazaarText(entry);
+            if(!entry || typeof entry !== 'object') return '';
+            if(entry.type === 'list' && Array.isArray(entry.items)) return entry.items.map(function(item){ return '• ' + flattenBazaarEntries([item]); }).join('\n');
+            if(entry.type === 'item') return cleanBazaarText((entry.name ? entry.name + ' ' : '') + (entry.entry || ''));
+            if(entry.type === 'table') return [entry.caption || 'Table'].concat((entry.rows || []).map(function(row){ return Array.isArray(row) ? row.map(cleanBazaarText).join(' | ') : cleanBazaarText(row); })).join('\n');
+            if(entry.entries) return flattenBazaarEntries(entry.entries);
+            if(entry.items) return flattenBazaarEntries(entry.items);
+            return cleanBazaarText(JSON.stringify(entry));
+          }).filter(Boolean).join('\n\n');
+        }
+        function classifyBazaarItem(raw){
+          var type=String(raw.type || '').toUpperCase(); var name=String(raw.name || '').toLowerCase(); var group=(raw.group || []).join(' ').toLowerCase();
+          if(raw.weaponCategory || raw.dmg1 || ['M','R','MW','RW','S','A'].indexOf(type) !== -1 && (raw.dmg1 || raw.range)) return 'weapon';
+          if(raw.ac || type === 'LA' || type === 'MA' || type === 'HA' || type === 'SHP') return 'armor';
+          if(name.indexOf('scroll') !== -1 || type === 'SCROLL' || type === 'SCRL') return 'scroll';
+          if(name.indexOf('potion') !== -1 || raw.potion || type === 'P') return 'potion';
+          if(group.indexOf('tool') !== -1 || group.indexOf('symbol') !== -1 || raw.scfType || (type === 'SCF' && !raw.wondrous)) return 'tool';
+          if(raw.wondrous || raw.tier || raw.reqAttune || (raw.rarity && String(raw.rarity).toLowerCase() !== 'none')) return 'magic-item';
+          return 'other-item';
+        }
+        function extractBazaarItemJSON(parsed){
+          if(Array.isArray(parsed)) return parsed[0] || {};
+          if(parsed && Array.isArray(parsed.item)) return parsed.item[0] || {};
+          if(parsed && Array.isArray(parsed.items)) return parsed.items[0] || {};
+          return parsed || {};
+        }
+        function normalizedBazaarFromRaw(raw){
+          raw = extractBazaarItemJSON(raw);
+          var kind=classifyBazaarItem(raw); var desc=flattenBazaarEntries(raw.entries); var rarity=raw.rarity ? String(raw.rarity) : 'None'; var source=[raw.source, raw.page ? 'p. '+raw.page : ''].filter(Boolean).join(' ');
+          var common={ name: raw.name || 'Imported Item', rarity: rarity, description: desc, source: source, raw: raw };
+          if(kind==='weapon') return { type:kind, item:Object.assign({ id:'weapon-'+Date.now()+'-'+Math.random().toString(16).slice(2), equipped:false, category:raw.weaponCategory || 'Simple', type:raw.weaponType || 'Melee', base:raw.baseItem || raw.name || '', properties:(raw.property || raw.properties || []), damage:raw.dmg1 || raw.damage || '—', range:Array.isArray(raw.range)?raw.range.join('/'):(raw.range || '—'), magicBonus:raw.bonusWeapon || '0', attunement:raw.reqAttune?'Yes':'No', attunementConditions:raw.reqAttune || '', cost:raw.value || '', damageTypes:[] }, common) };
+          if(kind==='armor') return { type:kind, item:Object.assign({ id:'armor-'+Date.now()+'-'+Math.random().toString(16).slice(2), equipped:false, category:'Armor', base:raw.name || '', baseAC:raw.ac ? String(raw.ac) : '', dexRule:'Full Dex', stealth:raw.stealth ? 'Disadvantage' : 'No Disadvantage', strength:raw.strength || '', magicBonus:raw.bonusAc || '0', attunement:raw.reqAttune?'Yes':'No', attunementConditions:raw.reqAttune || '' }, common) };
+          if(kind==='tool') return { type:kind, item:Object.assign({ id:'tool-'+Date.now()+'-'+Math.random().toString(16).slice(2), category:(raw.group && raw.group[0]) || 'Tool', base:raw.name || '', ability:'Dexterity', proficient:'No', uses:raw.scfType || '', attunement:raw.reqAttune?'Yes':'No', attunementConditions:raw.reqAttune || '' }, common) };
+          if(kind==='scroll') return { type:kind, item:Object.assign({ id:'scroll-'+Date.now()+'-'+Math.random().toString(16).slice(2), equipped:false, type:'Spell Scroll', level:raw.level || 'Cantrip', spell:raw.spell || raw.name || '', school:'N/A', castingTime:'', range:'', components:'', saveAttack:'', consumed:'Yes', attunement:'No', attunementConditions:'' }, common) };
+          if(kind==='potion') return { type:kind, item:Object.assign({ id:'potion-'+Date.now()+'-'+Math.random().toString(16).slice(2), equipped:false, type:'Potion', effect:desc.split('\n')[0] || '', dice:'', bonus:'', duration:'Instant', quantity:'1', consumed:'Yes' }, common) };
+          if(kind==='magic-item') return { type:kind, item:Object.assign({ id:'magic-item-'+Date.now()+'-'+Math.random().toString(16).slice(2), equipped:false, category:raw.wondrous?'Wondrous Item':(raw.type || 'Magic Item'), charges:raw.charges || '', bonus:raw.bonusWeapon || raw.bonusAc || '0', effect:desc.split('\n')[0] || raw.tier || '', attunement:raw.reqAttune?'Yes':'No', attunementConditions:raw.reqAttune || '' }, common) };
+          return { type:kind, item:Object.assign({ id:'other-item-'+Date.now()+'-'+Math.random().toString(16).slice(2), category:raw.type || 'Other', quantity:'1', location:'' }, common) };
+        }
+        function updateBazaarPreview(){
+          if(!bazaarCurrentItem) return;
+          var name=bazaarField('bazaar-item-name'), type=bazaarField('bazaar-item-type'), rarity=bazaarField('bazaar-item-rarity'), desc=bazaarField('bazaar-item-description');
+          bazaarCurrentItem.item.name = name ? name.value : bazaarCurrentItem.item.name;
+          bazaarCurrentItem.type = type ? type.value : bazaarCurrentItem.type;
+          bazaarCurrentItem.item.rarity = rarity ? rarity.value : bazaarCurrentItem.item.rarity;
+          bazaarCurrentItem.item.description = desc ? desc.value : bazaarCurrentItem.item.description;
+          return bazaarCurrentItem;
+        }
+        function showBazaarPreview(parsed){
+          bazaarCurrentItem = parsed; var preview=bazaarField('bazaar-import-preview'), summary=bazaarField('bazaar-import-summary');
+          if(bazaarField('bazaar-item-name')) bazaarField('bazaar-item-name').value = parsed.item.name || '';
+          if(bazaarField('bazaar-item-type')) bazaarField('bazaar-item-type').value = parsed.type || 'other-item';
+          if(bazaarField('bazaar-item-rarity')) bazaarField('bazaar-item-rarity').value = parsed.item.rarity || 'None';
+          if(bazaarField('bazaar-item-description')) bazaarField('bazaar-item-description').value = parsed.item.description || '';
+          if(summary) summary.innerHTML = '<strong>'+escapeItemText(parsed.item.name || 'Imported Item')+'</strong><span class="tiny">Detected and sorted automatically from the imported D&amp;D 5e JSON.</span><div class="bazaar-import-detail-grid"><div class="bazaar-import-detail"><strong>Type</strong>'+escapeItemText(parsed.type.replace('-', ' '))+'</div><div class="bazaar-import-detail"><strong>Rarity</strong>'+escapeItemText(parsed.item.rarity || 'None')+'</div><div class="bazaar-import-detail"><strong>Source</strong>'+escapeItemText(parsed.item.source || '—')+'</div><div class="bazaar-import-detail"><strong>Description</strong>'+escapeItemText((parsed.item.description || 'No description supplied.').slice(0, 180))+'</div></div>';
+          if(preview) preview.hidden = false;
+        }
+        async function importBazaarClipboard(){
+          var rawField=bazaarField('bazaar-raw-json'); var text=rawField ? rawField.value.trim() : '';
+          if(!text && navigator.clipboard && navigator.clipboard.readText){ try { text = (await navigator.clipboard.readText()).trim(); if(rawField) rawField.value=text; } catch(e) {} }
+          if(!text){ showToast('Paste item JSON or allow clipboard access'); return; }
+          try { showBazaarPreview(normalizedBazaarFromRaw(JSON.parse(text))); showToast('Bazaar item imported'); }
+          catch(e){ showToast('Could not parse item JSON'); }
+        }
+        function inventoryConfig(type){ return { 'weapon':['weaponsInventory',renderWeaponsInventory], 'armor':['armorInventory',renderArmorInventory], 'tool':['toolsInventory',renderToolsInventory], 'scroll':['scrollsInventory',renderScrollsInventory], 'potion':['potionsInventory',renderPotionsInventory], 'magic-item':['magicItemsInventory',renderMagicItemsInventory], 'other-item':['otherItemsInventory',renderOtherItemsInventory] }[type]; }
+        function addBazaarToInventory(record){
+          record = record || updateBazaarPreview(); if(!record) return; ensureWeaponInventoryState(); ensureArmorInventoryState(); ensureExtraInventoryState();
+          var cfg=inventoryConfig(record.type); if(!cfg) return; var item=clone(record.item); item.id=record.type+'-'+Date.now()+'-'+Math.random().toString(16).slice(2); if(!Array.isArray(state[cfg[0]])) state[cfg[0]]=[]; state[cfg[0]].push(item); cfg[1](); if(record.type==='weapon') renderWeaponAttacks(); if(record.type==='armor') renderArmorClassTopbar(); if(typeof saveState==='function') saveState('Bazaar item added to inventory'); showToast('Added to inventory'); }
+        function addBazaarToExisting(){ var record=updateBazaarPreview(); if(!record) return; ensureBazaarState(); if(record._existingId){ var idx=state.existingBazaarItems.findIndex(function(x){ return x.id===record._existingId; }); if(idx !== -1) state.existingBazaarItems[idx]={ id:record._existingId, type:record.type, item:clone(record.item) }; } else { state.existingBazaarItems.push({ id:'existing-'+Date.now()+'-'+Math.random().toString(16).slice(2), type:record.type, item:clone(record.item) }); } if(typeof saveState==='function') saveState('Bazaar item stored'); showToast('Added to Existing Items'); renderExistingBazaarItems(); }
+        function clearBazaarImport(){ bazaarCurrentItem=null; ['bazaar-raw-json','bazaar-item-name','bazaar-item-rarity','bazaar-item-description'].forEach(function(id){ var el=bazaarField(id); if(el) el.value=''; }); var p=bazaarField('bazaar-import-preview'); if(p) p.hidden=true; }
+        function renderExistingBazaarItems(){
+          ensureBazaarState(); var list=bazaarField('existing-items-list'); if(!list) return; if(!state.existingBazaarItems.length){ list.innerHTML='<div class="item-empty-state">No existing imported items yet. Use Import Bazaar Item first.</div>'; return; }
+          list.innerHTML=state.existingBazaarItems.map(function(entry){ return '<div class="existing-item-row"><div><strong>'+escapeItemText(entry.item.name || 'Imported Item')+'</strong><div class="tiny">'+escapeItemText(entry.type.replace('-', ' '))+' • '+escapeItemText(entry.item.rarity || 'None')+'</div></div><button class="mini-btn" data-existing-add="'+escapeItemText(entry.id)+'" type="button">Add to Inventory</button><button class="mini-btn" data-existing-edit="'+escapeItemText(entry.id)+'" type="button">Edit</button></div>'; }).join('');
+        }
+        var openBazaarBtn=document.getElementById('open-bazaar-import-button'); if(openBazaarBtn) openBazaarBtn.addEventListener('click', function(){ clearBazaarImport(); bazaarModal(true); });
+        var openExistingBtn=document.getElementById('open-existing-items-button'); if(openExistingBtn) openExistingBtn.addEventListener('click', function(){ existingModal(true); });
+        var closeExistingBtn=document.getElementById('close-existing-items-button'); if(closeExistingBtn) closeExistingBtn.addEventListener('click', function(){ existingModal(false); });
+        var bazaarClose=document.getElementById('bazaar-close-button'); if(bazaarClose) bazaarClose.addEventListener('click', function(){ bazaarModal(false); });
+        var bazaarBackdrop=document.getElementById('bazaar-import-modal'); if(bazaarBackdrop) bazaarBackdrop.addEventListener('click', function(event){ if(event.target === bazaarBackdrop) bazaarModal(false); });
+        var existingBackdrop=document.getElementById('existing-items-modal'); if(existingBackdrop) existingBackdrop.addEventListener('click', function(event){ if(event.target === existingBackdrop) existingModal(false); });
+        document.addEventListener('keydown', function(event){ if(event.key === 'Escape'){ if(bazaarBackdrop && bazaarBackdrop.hidden === false) bazaarModal(false); if(existingBackdrop && existingBackdrop.hidden === false) existingModal(false); } });
+        var bazaarImport=document.getElementById('bazaar-import-read-button'); if(bazaarImport) bazaarImport.addEventListener('click', importBazaarClipboard);
+        var bazaarClear=document.getElementById('bazaar-clear-button'); if(bazaarClear) bazaarClear.addEventListener('click', clearBazaarImport);
+        var bazaarAddExisting=document.getElementById('bazaar-add-existing-button'); if(bazaarAddExisting) bazaarAddExisting.addEventListener('click', addBazaarToExisting);
+        var bazaarAddInventory=document.getElementById('bazaar-add-inventory-button'); if(bazaarAddInventory) bazaarAddInventory.addEventListener('click', function(){ addBazaarToInventory(); });
+        document.addEventListener('click', function(event){
+          var add=event.target.closest && event.target.closest('[data-existing-add]'); if(add){ ensureBazaarState(); var found=state.existingBazaarItems.find(function(x){ return x.id===add.dataset.existingAdd; }); if(found) addBazaarToInventory(clone(found)); return; }
+          var edit=event.target.closest && event.target.closest('[data-existing-edit]'); if(edit){ ensureBazaarState(); var foundEdit=state.existingBazaarItems.find(function(x){ return x.id===edit.dataset.existingEdit; }); if(foundEdit){ showBazaarPreview(clone(foundEdit)); bazaarCurrentItem._existingId=foundEdit.id; existingModal(false); bazaarModal(true); } }
+        });
+
         document.querySelectorAll('[data-add-item]').forEach(function(btn){
           btn.addEventListener('click', function(){
             currentItemEdit = null;
@@ -10028,20 +10272,35 @@
   }
 
 
-  document.addEventListener('click', function(event){
-    var btn = event.target.closest && event.target.closest('.spell-once-toggle');
-    if(!btn) return;
-    var used = !btn.classList.contains('used');
+  function setOnceSpellButtonState(btn, used){
     btn.classList.toggle('used', used);
     btn.setAttribute('aria-pressed', used ? 'true' : 'false');
     btn.textContent = used ? 'Used' : '1/day';
-    try { localStorage.setItem('tevnvr_once_spell_' + (btn.dataset.onceSpell || ''), used ? 'used' : 'ready'); } catch(e) {}
+    var row = btn.closest && btn.closest('.spell-row');
+    if(row) row.classList.toggle('spell-used-up', used);
+  }
+  document.addEventListener('click', function(event){
+    var btn = event.target.closest && event.target.closest('.spell-once-toggle');
+    if(!btn) return;
+    var key = btn.dataset.onceSpell || '';
+    var used = !btn.classList.contains('used');
+    if(typeof state !== 'undefined'){
+      if(!state.onceSpells || typeof state.onceSpells !== 'object') state.onceSpells = {};
+      state.onceSpells[key] = used;
+    }
+    setOnceSpellButtonState(btn, used);
+    try { localStorage.setItem('tevnvr_once_spell_' + key, used ? 'used' : 'ready'); } catch(e) {}
+    if(typeof saveState === 'function') saveState(used ? 'Special spell used' : 'Special spell readied');
   });
   document.querySelectorAll('.spell-once-toggle').forEach(function(btn){
+    var key = btn.dataset.onceSpell || '';
+    var used = false;
     try {
-      var saved = localStorage.getItem('tevnvr_once_spell_' + (btn.dataset.onceSpell || ''));
-      if(saved === 'used') { btn.classList.add('used'); btn.setAttribute('aria-pressed','true'); btn.textContent = 'Used'; }
+      used = !!(typeof state !== 'undefined' && state.onceSpells && state.onceSpells[key]);
+      var saved = localStorage.getItem('tevnvr_once_spell_' + key);
+      if(saved === 'used') used = true;
     } catch(e) {}
+    setOnceSpellButtonState(btn, used);
   });
 
   function openSpellDetail(id){
@@ -10117,7 +10376,7 @@
         var arr = state.slots[key] || [];
         var idx = arr.findIndex(Boolean);
         if(idx === -1){ showToast(level === 2 ? 'No level 2 spell slots left' : 'No level 1 spell slots left'); return; }
-        arr[idx] = false; syncSlotButtons(); saveState('Spell slot used'); showToast((level === 2 ? 'Level 2' : 'Level 1') + ' spell slot used');
+        arr[idx] = false; syncSlotButtons(); if (typeof updateSpellAvailabilityDisplay === 'function') updateSpellAvailabilityDisplay(); saveState('Spell slot used'); showToast((level === 2 ? 'Level 2' : 'Level 1') + ' spell slot used');
       }
       function setupSpellCastSlotUse(){
         document.querySelectorAll('[data-spell-row] .spell-cast-btn').forEach(function(btn){
@@ -10143,7 +10402,7 @@
         ensureV120State(); var shortBtn = document.getElementById('short-rest-button'); var longBtn = document.getElementById('long-rest-button'); var panel = document.getElementById('hitdice-panel'); var close = document.getElementById('close-hitdice-panel');
         if(shortBtn && panel) shortBtn.addEventListener('click', function(){ panel.hidden = !panel.hidden; renderHitDicePanel(); });
         if(close && panel) close.addEventListener('click', function(){ panel.hidden = true; });
-        if(longBtn) longBtn.addEventListener('click', function(){ state.hp = MAX_HP; state.tempHp = 0; state.slots.lvl1 = [true,true,true,true]; state.slots.lvl2 = [true,true]; state.hitDiceUsed = [false,false,false,false,false,false,false]; renderHP(); syncSlotButtons(); renderHitDicePanel(); saveState('Long rest complete'); showToast('Long rest complete'); });
+        if(longBtn) longBtn.addEventListener('click', function(){ state.hp = MAX_HP; state.tempHp = 0; state.slots.lvl1 = [true,true,true,true]; state.slots.lvl2 = [true,true]; state.onceSpells = {}; document.querySelectorAll('.spell-once-toggle').forEach(function(btn){ if(typeof setOnceSpellButtonState === 'function') setOnceSpellButtonState(btn, false); try { localStorage.setItem('tevnvr_once_spell_' + (btn.dataset.onceSpell || ''), 'ready'); } catch(e) {} }); state.hitDiceUsed = [false,false,false,false,false,false,false]; renderHP(); syncSlotButtons(); if(typeof updateSpellAvailabilityDisplay === 'function') updateSpellAvailabilityDisplay(); renderHitDicePanel(); saveState('Long rest complete'); showToast('Long rest complete'); });
         document.addEventListener('change', function(event){ var box = event.target.closest && event.target.closest('[data-hitdie-used]'); if(!box) return; ensureV120State(); state.hitDiceUsed[Number(box.dataset.hitdieUsed)] = !!box.checked; renderHitDicePanel(); saveState('Hit dice updated'); });
         document.addEventListener('click', function(event){ var roll = event.target.closest && event.target.closest('[data-hitdie-roll]'); if(roll) rollHitDie(Number(roll.dataset.hitdieRoll)); if(event.target && event.target.id === 'hitdice-auto-roll'){ ensureV120State(); var before = state.hp, total = 0; for(var i=0;i<state.hitDiceUsed.length;i++){ if(!state.hitDiceUsed[i] && state.hp < MAX_HP){ var r = Math.floor(Math.random()*8)+1; total += r; state.hp = Math.min(MAX_HP, state.hp + r); state.hitDiceUsed[i] = true; } } renderHP(); renderHitDicePanel(); saveState('Hit dice rolled'); showToast('Hit dice rolled '+total+', healed '+(state.hp-before)); } });
         renderHitDicePanel();
