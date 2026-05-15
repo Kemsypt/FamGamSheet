@@ -9209,13 +9209,6 @@
           });
         }
 
-        function formatItemDescription(value){
-          var cleaned = (typeof cleanBazaarText === 'function') ? cleanBazaarText(value || 'No description entered yet.') : (value || 'No description entered yet.');
-          return escapeItemDetail(cleaned)
-            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-            .replace(/\n/g, '<br>');
-        }
-
         function findInventoryItem(type, id){
           var map = {
             'weapon': ['weaponsInventory', 'Weapon'],
@@ -9258,7 +9251,7 @@
           var pills = itemDetailFields(type, item).map(function(pair){
             return '<div class="item-detail-pill"><strong>' + escapeItemDetail(pair[0]) + '</strong><span>' + escapeItemDetail(pair[1]) + '</span></div>';
           }).join('');
-          itemDetailBody.innerHTML = '<div class="item-detail-summary">' + pills + '</div><div class="item-detail-description">' + formatItemDescription(item.description || 'No description entered yet.') + '</div>';
+          itemDetailBody.innerHTML = '<div class="item-detail-summary">' + pills + '</div><div class="item-detail-description">' + escapeItemDetail(item.description || 'No description entered yet.') + '</div>';
           itemDetailModal.hidden = false;
           itemDetailModal.style.display = 'grid';
         }
@@ -9740,23 +9733,7 @@
         function bazaarModal(open){ var m=document.getElementById('bazaar-import-modal'); if(!m) return; m.hidden=!open; m.style.display=open?'grid':'none'; }
         function existingModal(open){ var m=document.getElementById('existing-items-modal'); if(!m) return; m.hidden=!open; m.style.display=open?'grid':'none'; if(open) renderExistingBazaarItems(); }
         function bazaarField(id){ return document.getElementById(id); }
-        function boldBazaarTagText(value){
-          var parts = String(value == null ? '' : value).split('|').map(function(part){ return part.trim(); }).filter(Boolean);
-          var text = parts.length > 2 ? parts[2] : parts[0];
-          return text ? '**' + text + '**' : '';
-        }
-        function cleanBazaarText(value){
-          return String(value == null ? '' : value)
-            .replace(/\{@([a-zA-Z0-9_-]+)(?:\s+([^}]*))?\}/g, function(match, tag, body){
-              tag = String(tag || '').toLowerCase();
-              body = String(body || '').trim();
-              if(tag === 'h') return '**Hit:**';
-              if(!body) return '';
-              if(tag === 'dc') return '**DC ' + body.split('|')[0].trim() + '**';
-              if(tag === 'hit') return '**+' + body.split('|')[0].trim() + ' to hit**';
-              return boldBazaarTagText(body);
-            });
-        }
+        function cleanBazaarText(value){ return String(value == null ? '' : value).replace(/\{@(spell|skill|condition|damage|dice) ([^}|]+)(?:\|[^}]*)?\}/g, '$2').replace(/\{@dc ([^}]+)\}/g, 'DC $1').replace(/\{@hit ([^}]+)\}/g, '+$1 to hit').replace(/\{@h\}/g, 'Hit:').replace(/\{@quickref ([^}|]+)(?:\|[^}]*)?\}/g, '$1'); }
         function flattenBazaarEntries(entries){
           if(!Array.isArray(entries)) entries = entries ? [entries] : [];
           return entries.map(function(entry){
@@ -9813,7 +9790,7 @@
           if(bazaarField('bazaar-item-type')) bazaarField('bazaar-item-type').value = parsed.type || 'other-item';
           if(bazaarField('bazaar-item-rarity')) bazaarField('bazaar-item-rarity').value = parsed.item.rarity || 'None';
           if(bazaarField('bazaar-item-description')) bazaarField('bazaar-item-description').value = parsed.item.description || '';
-          if(summary) summary.innerHTML = '<strong>'+escapeItemText(parsed.item.name || 'Imported Item')+'</strong><span class="tiny">Detected and sorted automatically from the imported D&amp;D 5e JSON.</span><div class="bazaar-import-detail-grid"><div class="bazaar-import-detail"><strong>Type</strong>'+escapeItemText(parsed.type.replace('-', ' '))+'</div><div class="bazaar-import-detail"><strong>Rarity</strong>'+escapeItemText(parsed.item.rarity || 'None')+'</div><div class="bazaar-import-detail"><strong>Source</strong>'+escapeItemText(parsed.item.source || '—')+'</div><div class="bazaar-import-detail"><strong>Description</strong>'+formatItemDescription((parsed.item.description || 'No description supplied.').slice(0, 180))+'</div></div>';
+          if(summary) summary.innerHTML = '<strong>'+escapeItemText(parsed.item.name || 'Imported Item')+'</strong><span class="tiny">Detected and sorted automatically from the imported D&amp;D 5e JSON.</span><div class="bazaar-import-detail-grid"><div class="bazaar-import-detail"><strong>Type</strong>'+escapeItemText(parsed.type.replace('-', ' '))+'</div><div class="bazaar-import-detail"><strong>Rarity</strong>'+escapeItemText(parsed.item.rarity || 'None')+'</div><div class="bazaar-import-detail"><strong>Source</strong>'+escapeItemText(parsed.item.source || '—')+'</div><div class="bazaar-import-detail"><strong>Description</strong>'+escapeItemText((parsed.item.description || 'No description supplied.').slice(0, 180))+'</div></div>';
           if(preview) preview.hidden = false;
         }
         async function importBazaarClipboard(){
