@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tevnyr Turn Flow Guide v10 - Easy Navigation</title>
+<style>
+:root{
+  --primary:#7a5ea7;
+  --secondary:#a370ff;
+  --accent:#7bf0d6;
+  --bg1:#fff8fd;
+  --bg2:#f3eeff;
+  --text:#2e2338;
+  --muted:#6c5a78;
+  --warning:#ffb86b;
+  --danger:#ff7a90;
+  --shadow:0 6px 18px rgba(0,0,0,0.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  background:linear-gradient(145deg,var(--bg1),var(--bg2));
+  color:var(--text);
+  line-height:1.7;
+}
+.container{width:min(1280px,94%);margin:auto;padding:24px}
+.card{
+  background:white;
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:24px;
+  box-shadow:var(--shadow);
+}
+h1,h2,h3{margin-top:0}
+h1,h2{color:var(--primary)}
+h3{color:var(--secondary)}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:12px;
+}
+.stat,.party-card{
+  background:#f7f2fa;
+  border-radius:16px;
+  padding:14px;
+}
+.stat{
+  font-weight:800;
+  text-align:center;
+}
+.step{
+  background:#faf6ff;
+  border-left:8px solid var(--secondary);
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:18px;
+}
+.tip{
+  background:#edfff8;
+  border-left:6px solid var(--accent);
+  border-radius:12px;
+  padding:14px;
+  margin-top:14px;
+}
+.rules{
+  background:#fff7ed;
+  border-left:6px solid var(--warning);
+  border-radius:12px;
+  padding:14px;
+  margin-top:14px;
+}
+.nope{
+  background:#fff0f3;
+  border-left:6px solid var(--danger);
+  border-radius:12px;
+  padding:14px;
+  margin-top:14px;
+}
+.scenario{
+  background:#f7f3ff;
+  border-radius:18px;
+  padding:20px;
+  margin-top:18px;
+}
+.turnbox{
+  background:white;
+  border:1px solid #e6ddff;
+  border-radius:14px;
+  padding:14px;
+  margin-top:12px;
+}
+.dialogue{
+  background:white;
+  border-radius:14px;
+  padding:14px;
+  border:1px solid #e6ddff;
+  margin-top:12px;
+}
+.label{color:var(--primary);font-weight:800}
+.highlight{color:var(--secondary);font-weight:800}
+ul,ol{padding-left:22px}
+.spell{
+  background:#fff;
+  border-radius:12px;
+  padding:12px;
+  margin-top:10px;
+  border-left:5px solid var(--secondary);
+}
+.footer{text-align:center;color:var(--muted);padding:20px}
+.small{color:var(--muted)}
+.badge{
+  display:inline-block;
+  background:var(--secondary);
+  color:white;
+  border-radius:999px;
+  padding:3px 10px;
+  font-size:0.85rem;
+  font-weight:800;
+  margin-right:6px;
+}
+
+.quick-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(255,255,255,0.94);
+  backdrop-filter:blur(10px);
+  border:1px solid #eadfff;
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  padding:12px;
+  margin-bottom:24px;
+}
+.quick-nav-title{
+  font-weight:900;
+  color:var(--primary);
+  margin:0 0 8px;
+}
+.quick-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.quick-links a,.top-link{
+  display:inline-block;
+  text-decoration:none;
+  background:#f7f2fa;
+  color:var(--primary);
+  border:1px solid #e5d8ff;
+  border-radius:999px;
+  padding:7px 12px;
+  font-weight:800;
+  font-size:0.92rem;
+}
+.quick-links a:hover,.top-link:hover{
+  background:var(--secondary);
+  color:white;
+}
+.section-heading{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+  border-bottom:2px solid #f0e8ff;
+  padding-bottom:8px;
+  margin-bottom:18px;
+}
+.section-heading h2{
+  margin:0;
+}
+.section-note{
+  color:var(--muted);
+  margin-top:-8px;
+  margin-bottom:18px;
+}
+.mini-toc{
+  background:#faf6ff;
+  border:1px solid #eadfff;
+  border-radius:16px;
+  padding:14px;
+  margin-top:14px;
+}
+.mini-toc strong{
+  color:var(--primary);
+}
+.mini-toc ul{
+  margin:8px 0 0;
+}
+html{
+  scroll-behavior:smooth;
+}
+@media print{
+  .quick-nav,.top-link{display:none}
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="card" id="top">
+<h1>Tevnyr's D&D 5e Combat & Roleplay Turn Flow</h1>
+<div class="grid">
+<div class="stat">Tevnyr: Mobile Striker / Utility</div>
+<div class="stat">Raynor: Half-Orc Cleric / Tank</div>
+<div class="stat">Kaimoira: Elf Fighter / Ranged & Close Damage</div>
+<div class="stat">Halrick: Human Wizard / Magic / Support / Area of Effect</div>
+</div>
+
+<div class="tip">
+Tevnyr's job is not to stand still and trade hits. Her job is to strike distracted enemies, protect vulnerable allies, scout, steal, confuse, and escape before the enemy can properly respond.
+</div>
+</div>
+
+
+<div class="quick-nav" aria-label="Quick navigation">
+<p class="quick-nav-title">Quick Links</p>
+<div class="quick-links">
+<a href="#timing">Timing Rules</a>
+<a href="#party-plan">Party Battle Plan</a>
+<a href="#turn-flow">Tevnyr's Turn Flow</a>
+<a href="#sneak-attack">Sneak Attack</a>
+<a href="#combat-scenarios">Combat Scenarios</a>
+<a href="#outside-combat">Outside Combat</a>
+<a href="#roleplay-scenarios">Roleplay Scenarios</a>
+<a href="#quick-reference">Quick Reference</a>
+</div>
+</div>
+
+<div class="card" id="timing">
+<div class="section-heading"><h2>Important Timing Rules</h2><a class="top-link" href="#top">Back to top</a></div>
+<p class="section-note">Start here if you want to avoid accidental out-of-turn actions.</p>
+
+<div class="rules">
+<h3>What Tevnyr can do on her own turn</h3>
+<ul>
+<li><strong>Action:</strong> Attack, cast most spells, Dash, Disengage, Dodge, Help, Hide, Use an Object, or use Mage Hand depending on the situation.</li>
+<li><strong>Bonus Action:</strong> Cunning Action to Dash, Disengage, or Hide. Misty Step is also a bonus action spell, so it uses the same bonus action slot.</li>
+<li><strong>Movement:</strong> Walk or fly up to her movement, split before and after actions if needed.</li>
+<li><strong>Free interaction:</strong> Draw a weapon, open an unlocked door, pick up one simple object, and similar small interactions.</li>
+</ul>
+</div>
+
+<div class="rules">
+<h3>What Tevnyr can do outside her own turn</h3>
+<ul>
+<li><strong>Reaction only:</strong> Shield when hit by an attack, opportunity attack when an enemy leaves her reach, or other reaction-based effects if available.</li>
+<li><strong>She cannot cast Misty Step outside her turn</strong> unless a specific feature says she can.</li>
+<li><strong>She cannot Dash, Disengage, Hide, Attack, or cast normal action/bonus-action spells outside her turn.</strong></li>
+</ul>
+</div>
+
+<div class="rules">
+<h3>Familiar timing</h3>
+<p>A familiar has its own place in initiative and acts on its own turn, but it cannot attack. It can still take actions like Help, Dash, Disengage, Dodge, Hide, or Search, depending on the situation.</p>
+<ul>
+<li>The familiar can use <strong>Help</strong> on its turn to distract an enemy.</li>
+<li>Then Tevnyr attacks on her turn and benefits if the Help effect still applies.</li>
+<li>Ask the DM how they run familiar initiative, because tables sometimes simplify it.</li>
+</ul>
+</div>
+
+<div class="nope">
+<h3>Common Mistakes to Avoid</h3>
+
+<p><strong>Mistake:</strong> “The enemy moves towards Halrick, so Tevnyr Misty Steps between them right now.”</p>
+<p><strong>Correct:</strong> Tevnyr can only Misty Step on her own turn. Outside her turn she usually only has reactions available.</p>
+
+<hr>
+
+<p><strong>Mistake:</strong> Standing beside enemies after attacking.</p>
+<p><strong>Correct:</strong> Rogues survive through movement, positioning, hiding, and escaping. Attack, then reposition whenever possible.</p>
+
+<hr>
+
+<p><strong>Mistake:</strong> Forgetting Sneak Attack.</p>
+<p><strong>Correct:</strong> Check every round whether Sneak Attack can trigger through allies, advantage, Faerie Fire, hiding, or familiar Help.</p>
+
+<hr>
+
+<p><strong>Mistake:</strong> Using Misty Step and then trying to Cunning Action Hide in the same turn.</p>
+<p><strong>Correct:</strong> Both use your bonus action. You only get one bonus action each turn.</p>
+
+<hr>
+
+<p><strong>Mistake:</strong> Sending the familiar into danger carelessly.</p>
+<p><strong>Correct:</strong> Familiars are fragile. Use them for scouting, Help actions, distractions, and information - not tanking damage.</p>
+
+<hr>
+
+<p><strong>Mistake:</strong> Flying in open air without cover.</p>
+<p><strong>Correct:</strong> Flying is strong, but being visible in the middle of the room makes Tevnyr an easy target for ranged enemies.</p>
+
+<hr>
+
+<p><strong>Mistake:</strong> Forgetting Mage Hand Legerdemain exists.</p>
+<p><strong>Correct:</strong> Tevnyr should constantly think about locks, levers, traps, stolen items, distractions, keys, potions, and remote interactions.</p>
+
+<hr>
+
+<p><strong>Mistake:</strong> Breaking Halrick's Area of Effect setup.</p>
+<p><strong>Correct:</strong> Do not drag enemies away from Halrick's planned spell area unless necessary.</p>
+
+<hr>
+
+<p><strong>Mistake:</strong> Splitting damage between too many enemies.</p>
+<p><strong>Correct:</strong> Help Kaimoira and Raynor finish enemies quickly. Dead enemies deal no damage.</p>
+
+<hr>
+
+<p><strong>Mistake:</strong> Forgetting Tevnyr is tiny.</p>
+<p><strong>Correct:</strong> Tiny size opens ridiculous possibilities - ceiling beams, tiny windows, gaps in walls, furniture, rafters, pipes, shelves, backpacks, and hiding spots other characters cannot use.</p>
+
+</div>
+</div>
+
+<div class="card" id="party-plan">
+<div class="section-heading"><h2>Party Battle Plan</h2><a class="top-link" href="#top">Back to top</a></div>
+<p class="section-note">How Tevnyr works with Raynor, Kaimoira, and Halrick.</p>
+
+<div class="grid">
+<div class="party-card">
+<h3>Raynor - Half-Orc Cleric / Tank</h3>
+<ul>
+<li>Holds the front line.</li>
+<li>Creates reliable Sneak Attack targets.</li>
+<li>Blocks doorways and choke points.</li>
+<li>Gives Tevnyr a safe target to stab and leave.</li>
+</ul>
+</div>
+
+<div class="party-card">
+<h3>Kaimoira - Elf Fighter / Ranged & Close Damage</h3>
+<ul>
+<li>Deals strong damage from range or up close.</li>
+<li>Can switch between ranged pressure and melee support.</li>
+<li>Works well with Faerie Fire.</li>
+<li>Helps finish wounded priority targets.</li>
+<li>Can hold a side lane while Tevnyr scouts or repositions.</li>
+</ul>
+</div>
+
+<div class="party-card">
+<h3>Halrick - Human Wizard / Magic / Support / Area of Effect</h3>
+<ul>
+<li>Controls groups of enemies.</li>
+<li>Benefits from Tevnyr creating distractions.</li>
+<li>Needs protection from fast melee enemies.</li>
+<li>Can punish enemies that bunch together near Raynor.</li>
+</ul>
+</div>
+
+<div class="party-card">
+<h3>Tevnyr - Arcane Trickster Fairy</h3>
+<ul>
+<li>Flies, hides, scouts, and strikes.</li>
+<li>Uses familiar and Faerie Fire to help trigger Sneak Attack.</li>
+<li>Uses Mage Hand Legerdemain to steal, sabotage, and solve problems.</li>
+<li>Uses spells to control, escape, or create openings.</li>
+</ul>
+</div>
+</div>
+
+<div class="tip">
+Best overall rhythm: Raynor anchors the fight, Kaimoira deals heavy damage, Halrick shapes the battlefield, and Tevnyr strikes whoever is distracted, exposed, or threatening the back line.
+</div>
+</div>
+
+<div class="card" id="turn-flow">
+<div class="section-heading"><h2>Tevnyr's Turn Flow</h2><a class="top-link" href="#top">Back to top</a></div>
+<p class="section-note">Use this during combat when deciding what Tevnyr should do next.</p>
+
+<div class="step">
+<h3>1. Start of Tevnyr's turn - choose the problem</h3>
+<ul>
+<li>Is Halrick threatened?</li>
+<li>Is Raynor already beside an enemy?</li>
+<li>Which target is Kaimoira focusing?</li>
+<li>Can Tevnyr get Sneak Attack this turn?</li>
+<li>Can Tevnyr end somewhere safer than where she started?</li>
+</ul>
+</div>
+
+<div class="step">
+<h3>2. Pick a target</h3>
+<ol>
+<li>Enemy threatening Halrick.</li>
+<li>Enemy locked in melee with Raynor.</li>
+<li>Enemy Kaimoira is already damaging.</li>
+<li>Enemy caster concentrating on a spell.</li>
+<li>Enemy isolated from the rest of the group.</li>
+</ol>
+</div>
+
+<div class="step">
+<h3>3. Set up Sneak Attack</h3>
+<ul>
+<li>Attack a target beside Raynor.</li>
+<li>Attack after the familiar used Help.</li>
+<li>Attack a target affected by Faerie Fire.</li>
+<li>Attack from hiding.</li>
+<li>Attack with advantage from another source.</li>
+</ul>
+
+<div class="tip">
+If Raynor is beside an enemy, that enemy is usually Tevnyr's cleanest Sneak Attack target.
+</div>
+</div>
+
+<div class="step">
+<h3>4. Use Action</h3>
+<ul>
+<li><span class="highlight">Attack</span> if Sneak Attack is ready.</li>
+<li><span class="highlight">Green-Flame Blade</span> if two enemies are close together.</li>
+<li><span class="highlight">Faerie Fire</span> if several enemies are grouped and the party can benefit.</li>
+<li><span class="highlight">Tasha's Hideous Laughter</span> if one dangerous enemy needs to be stopped.</li>
+<li><span class="highlight">Crown of Madness</span> if enemies are clustered and chaos helps.</li>
+<li><span class="highlight">Minor Illusion</span> to bait, distract, or hide something.</li>
+<li><span class="highlight">Mage Hand Legerdemain</span> for theft, sabotage, doors, traps, or objects.</li>
+</ul>
+</div>
+
+<div class="step">
+<h3>5. Use Bonus Action</h3>
+<ul>
+<li><strong>Cunning Action: Hide</strong> after attacking from cover.</li>
+<li><strong>Cunning Action: Disengage</strong> before leaving melee.</li>
+<li><strong>Cunning Action: Dash</strong> to reach cover, height, or an objective.</li>
+<li><strong>Misty Step</strong> to teleport as a bonus action, but only on Tevnyr's own turn.</li>
+</ul>
+
+<div class="warning">
+You only get one bonus action. If Tevnyr casts Misty Step, she cannot also bonus action Hide, Dash, or Disengage that same turn.
+</div>
+</div>
+
+<div class="step">
+<h3>6. Movement and end position</h3>
+<ul>
+<li>Fly to a beam, balcony, tree branch, wall niche, ledge, bookshelf, or other awkward place.</li>
+<li>Use tiny size to fit somewhere enemies cannot easily follow.</li>
+<li>Do not block Kaimoira's line of sight.</li>
+<li>Do not drag enemies towards Halrick.</li>
+<li>Try to end near cover, above reach, or hidden.</li>
+</ul>
+</div>
+</div>
+
+
+<div class="card" id="sneak-attack">
+<div class="section-heading"><h2>Sneak Attack: Tevnyr's Most Important Combat Feature</h2><a class="top-link" href="#top">Back to top</a></div>
+<p class="section-note">Use this section whenever you are unsure whether Tevnyr can add Sneak Attack damage.</p>
+
+<div class="step">
+<h3>Why Sneak Attack matters</h3>
+<p>Sneak Attack is Tevnyr's main damage engine. As a rogue, she is not built to make lots of attacks like a fighter or tank hits like Raynor. Instead, she wants one accurate, well-timed strike each round that deals heavy damage.</p>
+
+<ul>
+<li>It makes Tevnyr's single attack matter.</li>
+<li>It rewards smart positioning and teamwork.</li>
+<li>It encourages attacking enemies distracted by Raynor.</li>
+<li>It makes familiar Help, hiding, and Faerie Fire extremely valuable.</li>
+<li>It lets Tevnyr contribute major damage while staying mobile and safe.</li>
+</ul>
+
+<div class="tip">
+Simple rule of thumb: if Tevnyr attacks during combat, ask “Can this be a Sneak Attack?” before rolling damage.
+</div>
+</div>
+
+<div class="step">
+<h3>Basic Sneak Attack checklist</h3>
+<p>Tevnyr can apply Sneak Attack if all of these are true:</p>
+
+<ul>
+<li>She hits with a <strong>finesse</strong> or <strong>ranged</strong> weapon attack.</li>
+<li>She does not have disadvantage on the attack roll.</li>
+<li>She has advantage on the attack roll, <strong>or</strong> another enemy of the target is within 5 feet of it.</li>
+<li>That nearby enemy of the target is not incapacitated.</li>
+<li>Sneak Attack has not already been used this turn.</li>
+</ul>
+
+<div class="rules">
+<strong>Important:</strong> Sneak Attack is once per turn, not once per round. Most of the time Tevnyr uses it on her own turn, but if she somehow makes a qualifying reaction attack on another creature's turn, it may be possible again.
+</div>
+</div>
+
+<div class="step">
+<h3>Best ways Tevnyr can trigger Sneak Attack</h3>
+
+<ul>
+<li><strong>Attack Raynor's target:</strong> Raynor is the tank, so enemies beside them are usually legal Sneak Attack targets.</li>
+<li><strong>Attack from hiding:</strong> If Tevnyr is hidden, she may attack with advantage.</li>
+<li><strong>Use familiar Help:</strong> The familiar uses Help on its turn, then Tevnyr attacks with advantage if the timing still works.</li>
+<li><strong>Use Faerie Fire:</strong> Enemies that fail the save can be attacked with advantage.</li>
+<li><strong>Attack restrained, prone, blinded, or otherwise vulnerable enemies:</strong> If the condition gives Tevnyr advantage, Sneak Attack may apply.</li>
+<li><strong>Coordinate with Kaimoira:</strong> Focus the same enemy so it drops faster.</li>
+<li><strong>Use Halrick's control spells:</strong> If Halrick makes enemies easier to hit, Tevnyr should capitalise.</li>
+</ul>
+</div>
+
+<div class="step">
+<h3>Situations where Sneak Attack usually works</h3>
+
+<div class="grid">
+<div class="party-card">
+<h3>Enemy beside Raynor</h3>
+<p>Raynor is in melee with the enemy. Tevnyr shoots or stabs that enemy. This is the cleanest setup.</p>
+</div>
+
+<div class="party-card">
+<h3>Familiar distracts the target</h3>
+<p>The familiar uses Help. Tevnyr attacks with advantage on her turn if the setup remains valid.</p>
+</div>
+
+<div class="party-card">
+<h3>Tevnyr is hidden</h3>
+<p>Tevnyr hides behind cover, in rafters, behind furniture, or in darkness, then attacks from hiding.</p>
+</div>
+
+<div class="party-card">
+<h3>Faerie Fire is active</h3>
+<p>An enemy fails against Faerie Fire. Tevnyr, Kaimoira, Raynor, and Halrick all benefit from easier targeting.</p>
+</div>
+
+<div class="party-card">
+<h3>Enemy is focused on someone else</h3>
+<p>An enemy locked onto Raynor, Kaimoira, or Halrick may be exposed if Tevnyr has advantage or an ally is beside it.</p>
+</div>
+
+<div class="party-card">
+<h3>Reaction attack opportunity</h3>
+<p>If an enemy leaves Tevnyr's reach and she makes an opportunity attack with a finesse weapon, Sneak Attack may apply if the conditions are met.</p>
+</div>
+</div>
+</div>
+
+<div class="step">
+<h3>Situations where Sneak Attack might not work</h3>
+
+<ul>
+<li>Tevnyr has disadvantage on the attack roll.</li>
+<li>The weapon is not ranged or finesse.</li>
+<li>No ally is beside the target and Tevnyr does not have advantage.</li>
+<li>The ally beside the target is incapacitated.</li>
+<li>Tevnyr already used Sneak Attack on that same turn.</li>
+<li>The familiar tried to Help, but the target moved or the timing no longer applies.</li>
+<li>Tevnyr is hidden poorly and the DM rules the enemy can clearly see her.</li>
+</ul>
+
+<div class="nope">
+<strong>Common mistake:</strong> Sneak Attack does not require Tevnyr to be sneaking. The name is misleading. It is really about striking a distracted or vulnerable enemy.
+</div>
+</div>
+
+<div class="scenario">
+<h3>Sneak Attack Example 1 - Raynor Tank Setup</h3>
+
+<div class="turnbox">
+<p><span class="badge">Raynor's turn</span>Raynor moves into melee with a bugbear and holds the front line.</p>
+<p><span class="badge">Tevnyr's turn</span>Tevnyr attacks the bugbear with a ranged or finesse weapon. Because Raynor is beside the bugbear, Sneak Attack can apply if Tevnyr hits and does not have disadvantage.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Raynor:</span> “I've got its attention.”</p>
+<p><span class="label">Tevnyr:</span> “Perfect. Keep looking big and heroic.”</p>
+<p><span class="label">Tevnyr:</span> “I fire at the bugbear while it's busy with Raynor.”</p>
+</div>
+</div>
+
+<div class="scenario">
+<h3>Sneak Attack Example 2 - Familiar Help Setup</h3>
+
+<div class="turnbox">
+<p><span class="badge">Familiar's turn</span>The familiar uses Help to distract a cultist.</p>
+<p><span class="badge">Tevnyr's turn</span>Tevnyr attacks that cultist with advantage. If she hits, Sneak Attack applies.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Tevnyr:</span> “Flit, make yourself deeply irritating.”</p>
+<p><span class="label">DM:</span> “The familiar flutters in the cultist's face.”</p>
+<p><span class="label">Tevnyr:</span> “Then I shoot while he's distracted.”</p>
+</div>
+</div>
+
+<div class="scenario">
+<h3>Sneak Attack Example 3 - Faerie Fire Team Setup</h3>
+
+<div class="turnbox">
+<p><span class="badge">Tevnyr's turn</span>Tevnyr casts Faerie Fire on a cluster of enemies.</p>
+<p><span class="badge">Later turns</span>Enemies that failed their saves grant advantage to attackers, helping Tevnyr trigger Sneak Attack and helping Kaimoira land more shots.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Tevnyr:</span> “Glowing enemies are easier to stab. Science, probably.”</p>
+<p><span class="label">Kaimoira:</span> “I like those odds.”</p>
+</div>
+</div>
+
+<div class="scenario">
+<h3>Sneak Attack Example 4 - Opportunity Attack Possibility</h3>
+
+<div class="turnbox">
+<p><span class="badge">Enemy's turn</span>An enemy leaves Tevnyr's melee reach.</p>
+<p><span class="badge">Tevnyr reaction</span>Tevnyr may make an opportunity attack if she has her reaction available.</p>
+<p><span class="badge">Damage</span>If the attack qualifies, Sneak Attack can apply because this is a different turn from Tevnyr's own turn.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">DM:</span> “The cultist turns and runs past you.”</p>
+<p><span class="label">Tevnyr:</span> “Rude. I use my reaction to stab him as he leaves.”</p>
+</div>
+
+<div class="rules">
+Ask the DM if the Sneak Attack conditions are met. This is legal only if Tevnyr has not used Sneak Attack on that enemy's turn already and the attack otherwise qualifies.
+</div>
+</div>
+
+</div>
+
+
+<div class="card" id="combat-scenarios">
+<div class="section-heading"><h2>Rules-Timed Combat Scenarios</h2><a class="top-link" href="#top">Back to top</a></div>
+<p class="section-note">Examples that follow 5e turn timing: actions and bonus actions on Tevnyr's turn, reactions only when triggered.</p>
+
+<div class="mini-toc">
+<strong>Combat scenario index</strong>
+<ul>
+<li>Scenario 1 - Classic Front Line Sneak Attack</li>
+<li>Scenario 2 - Enemy Threatens the Halrick</li>
+<li>Scenario 3 - Familiar Help Into Sneak Attack</li>
+<li>Scenario 4 - Faerie Fire Team Setup</li>
+<li>Scenario 5 - Green-Flame Blade Near the Tank</li>
+<li>Scenario 6 - Shield as a Proper Reaction</li>
+<li>Scenario 7 - Halrick Area of Effect Setup Without Breaking Timing</li>
+<li>Scenario 8 - Mage Hand Legerdemain During Combat</li>
+</ul>
+</div>
+
+
+<div class="scenario">
+<h3>Scenario 1 - Classic Front Line Sneak Attack</h3>
+<p><strong>Situation:</strong> Raynor is in melee with a hobgoblin. Kaimoira is attacking from the back. Halrick is preparing an Area of Effect if enemies bunch up.</p>
+
+<div class="turnbox">
+<p><span class="badge">Raynor's turn</span>Raynor moves into the doorway and engages the hobgoblin.</p>
+<p><span class="badge">Kaimoira's turn</span>Kaimoira attacks the hobgoblin, marking it as the priority target.</p>
+<p><span class="badge">Halrick's turn</span>Halrick holds position and warns the party not to scatter enemies away from the doorway.</p>
+<p><span class="badge">Tevnyr's turn</span>Tevnyr flies from behind cover, attacks the hobgoblin because it is beside Raynor, applies Sneak Attack, then uses Bonus Action Disengage or Hide depending on whether she is still threatened.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Raynor:</span> “I've got this one held.”</p>
+<p><span class="label">Kaimoira:</span> “Same target. Bring it down.”</p>
+<p><span class="label">Tevnyr:</span> “Easy. Keep it looking at you.”</p>
+<p><span class="label">Tevnyr:</span> “I swoop in, stab while it's busy with Raynor, then duck behind the broken pillar.”</p>
+</div>
+
+<p><strong>Why it works:</strong> Tevnyr's Sneak Attack is legal because an ally is within 5 feet of the target, and her bonus action happens on her own turn.</p>
+</div>
+
+<div class="scenario">
+<h3>Scenario 2 - Enemy Threatens the Halrick</h3>
+<p><strong>Situation:</strong> A fast enemy moves towards Halrick. It is currently the enemy's turn, not Tevnyr's.</p>
+
+<div class="turnbox">
+<p><span class="badge">Enemy's turn</span>The enemy moves towards Halrick and attacks Halrick if it can reach.</p>
+<p><span class="badge">Tevnyr outside her turn</span>Tevnyr cannot Misty Step, Dash, Disengage, or cast Tasha's Hideous Laughter right now. She can only use a reaction if a trigger applies. For example, Shield only works if Tevnyr herself is hit.</p>
+<p><span class="badge">Tevnyr's next turn</span>Now Tevnyr can act. She can fly or Misty Step into position, attack the enemy, cast Tasha's Hideous Laughter, use Minor Illusion to distract, or help Halrick escape by pressuring the threat.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">DM:</span> “The ghoul rushes past the front line towards Halrick.”</p>
+<p><span class="label">Tevnyr:</span> “Can I Misty Step in front of it?”</p>
+<p><span class="label">DM:</span> “Not until your turn. It is the ghoul's turn right now.”</p>
+<p><span class="label">Tevnyr:</span> “Got it. On my turn, I Misty Step onto the desk beside Halrick and cast Tasha's Hideous Laughter on the ghoul.”</p>
+</div>
+
+<p><strong>Why it works:</strong> Misty Step and Tasha's Hideous Laughter are used on Tevnyr's own turn, not as an interrupt.</p>
+</div>
+
+<div class="scenario">
+<h3>Scenario 3 - Familiar Help Into Sneak Attack</h3>
+<p><strong>Situation:</strong> Tevnyr's familiar is in initiative before Tevnyr.</p>
+
+<div class="turnbox">
+<p><span class="badge">Familiar's turn</span>The familiar flies to the enemy and uses the Help action to distract it.</p>
+<p><span class="badge">Enemy's turn</span>If the enemy acts before Tevnyr, the plan might fail if it moves away, attacks the familiar, or changes position.</p>
+<p><span class="badge">Tevnyr's turn</span>If the Help still applies, Tevnyr attacks with advantage and can apply Sneak Attack if she hits.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Tevnyr:</span> “Flit, be a nuisance.”</p>
+<p><span class="label">DM:</span> “On Flit's turn, it swoops around the bandit's face and uses Help.”</p>
+<p><span class="label">Tevnyr:</span> “When my turn comes up, I fire from behind the statue with advantage.”</p>
+</div>
+
+<p><strong>Why it works:</strong> The familiar acts on its own turn. Tevnyr receives the benefit later if the timing still lines up.</p>
+</div>
+
+<div class="scenario">
+<h3>Scenario 4 - Faerie Fire Team Setup</h3>
+<p><strong>Situation:</strong> Three enemies are clustered near Raynor. Kaimoira has line of sight. Halrick wants easier targets for follow-up spells.</p>
+
+<div class="turnbox">
+<p><span class="badge">Tevnyr's turn</span>Tevnyr uses her action to cast Faerie Fire on the group. She then uses movement to fly behind cover. She may use Cunning Action Hide if she has not used her bonus action for something else and the DM agrees she has a place to hide.</p>
+<p><span class="badge">Kaimoira's turn</span>Kaimoira attacks a glowing enemy with advantage if the enemy failed its save, whether fighting at range or up close.</p>
+<p><span class="badge">Raynor's turn</span>Raynor attacks or holds the front line against glowing enemies.</p>
+<p><span class="badge">Halrick's turn</span>Halrick can target the highlighted enemies more confidently, especially if invisibility was an issue.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Tevnyr:</span> “They're all nicely packed together. Rude not to light them up.”</p>
+<p><span class="label">Tevnyr:</span> “I cast Faerie Fire over the cluster near Raynor, then fly behind the archway.”</p>
+<p><span class="label">Kaimoira:</span> “Perfect. I shoot the glowing one.”</p>
+</div>
+
+<p><strong>Why it works:</strong> Faerie Fire uses Tevnyr's action on her own turn and helps the whole party afterwards.</p>
+</div>
+
+<div class="scenario">
+<h3>Scenario 5 - Green-Flame Blade Near the Tank</h3>
+<p><strong>Situation:</strong> Two enemies are beside Raynor. Tevnyr can reach one safely.</p>
+
+<div class="turnbox">
+<p><span class="badge">Tevnyr's turn</span>Tevnyr flies or moves into melee, casts Green-Flame Blade as her action, hits one enemy, and the flame jumps to the second if conditions are met.</p>
+<p><span class="badge">Same turn</span>If Tevnyr is now in melee and needs to escape, she can use Bonus Action Disengage with Cunning Action, then fly away.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Raynor:</span> “Two on me!”</p>
+<p><span class="label">Tevnyr:</span> “That sounds like a them problem.”</p>
+<p><span class="label">Tevnyr:</span> “I fly in, use Green-Flame Blade on the closest one, then bonus action Disengage and get back above them.”</p>
+</div>
+
+<p><strong>Why it works:</strong> Green-Flame Blade is Tevnyr's action. Disengage is her bonus action. Both happen on her own turn.</p>
+</div>
+
+<div class="scenario">
+<h3>Scenario 6 - Shield as a Proper Reaction</h3>
+<p><strong>Situation:</strong> An archer shoots Tevnyr between her turns.</p>
+
+<div class="turnbox">
+<p><span class="badge">Enemy's turn</span>The enemy attacks Tevnyr and the attack hits.</p>
+<p><span class="badge">Tevnyr reaction</span>Tevnyr casts Shield, increasing her AC until the start of her next turn. If the new AC is high enough, the attack misses.</p>
+<p><span class="badge">Tevnyr's next turn</span>Tevnyr can now reposition, hide, retaliate, or fly behind better cover.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">DM:</span> “The archer hits Tevnyr with a 17.”</p>
+<p><span class="label">Tevnyr:</span> “No thanks. I cast Shield.”</p>
+<p><span class="label">DM:</span> “The arrow flashes off a magical barrier.”</p>
+</div>
+
+<p><strong>Why it works:</strong> Shield is a reaction spell with a specific trigger: Tevnyr is hit by an attack.</p>
+</div>
+
+<div class="scenario">
+<h3>Scenario 7 - Halrick Area of Effect Setup Without Breaking Timing</h3>
+<p><strong>Situation:</strong> Halrick wants enemies grouped for an Area of Effect next round.</p>
+
+<div class="turnbox">
+<p><span class="badge">Tevnyr's turn</span>Tevnyr uses Minor Illusion to create the sound of reinforcements coming from one side passage, then flies back towards Raynor's defensive line.</p>
+<p><span class="badge">Enemies' turns</span>If fooled, enemies may move away from the fake sound and towards Raynor or doorway.</p>
+<p><span class="badge">Halrick's turn</span>Halrick casts an Area of Effect spell on the newly grouped enemies.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Halrick:</span> “If they gather by the door, I can hit all of them.”</p>
+<p><span class="label">Tevnyr:</span> “Right. I'll make the other hallway sound worse.”</p>
+<p><span class="label">Tevnyr:</span> “On my turn, I cast Minor Illusion: heavy boots and shouting from the side passage. Then I fly back behind Raynor.”</p>
+</div>
+
+<p><strong>Why it works:</strong> Tevnyr creates the bait on her turn. Enemies react on their own turns. Halrick acts on Halrick's turn.</p>
+</div>
+
+<div class="scenario">
+<h3>Scenario 8 - Mage Hand Legerdemain During Combat</h3>
+<p><strong>Situation:</strong> A cultist has a key on their belt and is standing near a locked cage.</p>
+
+<div class="turnbox">
+<p><span class="badge">Tevnyr's turn</span>Tevnyr uses Mage Hand Legerdemain to attempt to lift the key or manipulate the lock from a distance, depending on what the DM allows and how the hand is already positioned.</p>
+<p><span class="badge">Party follow-up</span>Kaimoira covers or engages the cultist, Raynor blocks enemies from reaching the cage, and Halrick prepares control magic if the prisoners are freed.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Tevnyr:</span> “While everyone's focused on Raynor, my invisible Mage Hand goes for the key.”</p>
+<p><span class="label">DM:</span> “Roll Sleight of Hand.”</p>
+<p><span class="label">Tevnyr:</span> “With pleasure.”</p>
+</div>
+
+<p><strong>Why it works:</strong> Tevnyr is using an action on her turn to manipulate the scene, not interrupting another creature's turn.</p>
+</div>
+</div>
+
+<div class="card" id="outside-combat">
+<div class="section-heading"><h2>Outside Combat Flow</h2><a class="top-link" href="#top">Back to top</a></div>
+<p class="section-note">Use this for exploration, infiltration, scouting, and problem solving.</p>
+
+<div class="step">
+<h3>1. Scout first</h3>
+<ul>
+<li>Send the familiar through windows, rafters, vents, tree lines, alleys, or over walls.</li>
+<li>Use Tevnyr's tiny size to slip into places the others cannot reach.</li>
+<li>Fly up to inspect balconies, rooftops, ledges, and guard towers.</li>
+<li>Return with information before Raynor commits the party to a risky entrance.</li>
+</ul>
+</div>
+
+<div class="step">
+<h3>2. Use the party properly</h3>
+<ul>
+<li><strong>Raynor:</strong> Best as the confident front-facing presence and physical protector.</li>
+<li><strong>Kaimoira:</strong> Best for tracking, outdoor scouting, watching exits, and covering from range or stepping into melee.</li>
+<li><strong>Halrick:</strong> Best for magic, research, ritual thinking, and interpreting arcane threats.</li>
+<li><strong>Tevnyr:</strong> Best for sneaking, unlocking, stealing, distracting, lying, improvising, and getting into tiny places.</li>
+</ul>
+</div>
+
+<div class="step">
+<h3>3. Use spells before trouble starts</h3>
+<ul>
+<li><strong>Disguise Self:</strong> Enter a restricted area before the alarm is raised.</li>
+<li><strong>Charm Person:</strong> Smooth over a conversation before it becomes a fight.</li>
+<li><strong>Minor Illusion:</strong> Pull guards away from a route.</li>
+<li><strong>Mage Hand Legerdemain:</strong> Unlock, steal, plant, or trigger things safely.</li>
+<li><strong>Find Familiar:</strong> Scout first so Tevnyr does not have to guess.</li>
+<li><strong>Druidcraft:</strong> Add flavour, signals, subtle distractions, or ominous fairy weirdness.</li>
+</ul>
+</div>
+</div>
+
+<div class="card" id="roleplay-scenarios">
+<div class="section-heading"><h2>Roleplay Scenarios</h2><a class="top-link" href="#top">Back to top</a></div>
+<p class="section-note">Dialogue examples and non-combat party teamwork.</p>
+
+<div class="scenario">
+<h3>Scenario - Breaking into a Guarded Manor</h3>
+
+<div class="turnbox">
+<p><span class="badge">Before entry</span>Familiar scouts upper windows and guard movement.</p>
+<p><span class="badge">Party setup</span>Raynor speaks at the front gate, Kaimoira watches the side path, and Halrick checks for magical alarms.</p>
+<p><span class="badge">Tevnyr's move</span>Tevnyr flies to a tiny upper window, slips inside if possible, then uses Mage Hand Legerdemain to unlock a safer entrance.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Raynor:</span> “I'll keep the guards talking.”</p>
+<p><span class="label">Kaimoira:</span> “I'll watch the side gate.”</p>
+<p><span class="label">Halrick:</span> “Check for runes before touching anything.”</p>
+<p><span class="label">Tevnyr:</span> “Relax. Touching things I shouldn't is practically a profession.”</p>
+</div>
+</div>
+
+<div class="scenario">
+<h3>Scenario - Suspicious Merchant</h3>
+
+<div class="turnbox">
+<p><span class="badge">Opening</span>Raynor presents the party as trustworthy.</p>
+<p><span class="badge">Observation</span>Kaimoira watches the merchant's hands, exits, and any signs of ambush.</p>
+<p><span class="badge">Arcane angle</span>Halrick asks about magical items or strange symbols.</p>
+<p><span class="badge">Tevnyr</span>Tevnyr uses charm, humour, deception, or Mage Hand mischief only if needed.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Merchant:</span> “I don't deal with stKaimoiras.”</p>
+<p><span class="label">Raynor:</span> “We're here on honest business.”</p>
+<p><span class="label">Tevnyr:</span> “Mostly honest. The profitable kind.”</p>
+<p><span class="label">Halrick:</span> “Ask him about the enchanted seal.”</p>
+<p><span class="label">Kaimoira:</span> “And the tracks behind the stall.”</p>
+</div>
+</div>
+
+<div class="scenario">
+<h3>Scenario - Trap in a Dungeon Corridor</h3>
+
+<div class="turnbox">
+<p><span class="badge">Discovery</span>Kaimoira notices something odd. Tevnyr inspects from a safe angle.</p>
+<p><span class="badge">Safety</span>Raynor keeps everyone back and ready in case enemies arrive.</p>
+<p><span class="badge">Magic check</span>Halrick checks whether the trap is magical.</p>
+<p><span class="badge">Tevnyr</span>Tevnyr uses Mage Hand Legerdemain to test, trigger, or disarm from a safer distance if possible.</p>
+</div>
+
+<div class="dialogue">
+<p><span class="label">Kaimoira:</span> “The dust pattern breaks halfway down the corridor.”</p>
+<p><span class="label">Tevnyr:</span> “Nobody put your foot there unless you're emotionally attached to losing it.”</p>
+<p><span class="label">Raynor:</span> “Can you deal with it?”</p>
+<p><span class="label">Tevnyr:</span> “Maybe. But first my invisible hand gets to be brave for us.”</p>
+</div>
+</div>
+</div>
+
+<div class="card" id="quick-reference">
+<div class="section-heading"><h2>Quick Rules Reference</h2><a class="top-link" href="#top">Back to top</a></div>
+<p class="section-note">Fast reminders for the table.</p>
+
+<div class="grid">
+<div class="party-card">
+<h3>On Tevnyr's turn</h3>
+<ul>
+<li>Move or fly.</li>
+<li>Take one action.</li>
+<li>Take one bonus action if available.</li>
+<li>Use one free object interaction if reasonable.</li>
+</ul>
+</div>
+
+<div class="party-card">
+<h3>Outside Tevnyr's turn</h3>
+<ul>
+<li>Usually only reactions.</li>
+<li>Shield only when Tevnyr is hit.</li>
+<li>No Misty Step unless it is her turn.</li>
+<li>No Cunning Action unless it is her turn.</li>
+</ul>
+</div>
+
+<div class="party-card">
+<h3>Familiar</h3>
+<ul>
+<li>Acts on its own turn.</li>
+<li>Cannot attack.</li>
+<li>Can Help, scout, distract, or watch.</li>
+<li>Works best when its turn happens before Tevnyr's.</li>
+</ul>
+</div>
+
+<div class="party-card">
+<h3>Sneak Attack setup</h3>
+<ul>
+<li>Enemy beside Raynor.</li>
+<li>Tevnyr has advantage.</li>
+<li>Familiar Help applies.</li>
+<li>Faerie Fire applies.</li>
+<li>Tevnyr attacks from hiding.</li>
+</ul>
+</div>
+
+<div class="party-card">
+<h3>Sneak Attack</h3>
+<ul>
+<li>Use once per turn.</li>
+<li>Needs finesse or ranged weapon.</li>
+<li>Works with advantage or ally beside target.</li>
+<li>Check it every time Tevnyr hits.</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<div class="footer">
+Tevnyr Guide v10 - Australian English • Easy Navigation • Sneak Attack Guide • Expanded Mistakes • Rules-Timed Scenarios • Arcane Trickster Fairy
+</div>
+
+</div>
+</body>
+</html>
